@@ -1,0 +1,9 @@
+{
+    "editor.fontSize": 13,
+    "editor.formatOnSave": true,
+    "editor.acceptSuggestionOnEnter": "smart",
+    "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit",
+        "source.fixAll": "explicit"
+    },
+}
