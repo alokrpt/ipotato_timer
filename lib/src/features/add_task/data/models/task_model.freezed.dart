@@ -20,10 +20,11 @@ TaskModel _$TaskModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$TaskModel {
-  int get id => throw _privateConstructorUsedError;
+  int? get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
-  Duration get duration => throw _privateConstructorUsedError;
+  Duration get duration =>
+      throw _privateConstructorUsedError; // int microseconds
   bool get isRunning => throw _privateConstructorUsedError;
   bool get isCompleted => throw _privateConstructorUsedError;
 
@@ -39,7 +40,7 @@ abstract class $TaskModelCopyWith<$Res> {
       _$TaskModelCopyWithImpl<$Res, TaskModel>;
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       String title,
       String description,
       Duration duration,
@@ -60,7 +61,7 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? title = null,
     Object? description = null,
     Object? duration = null,
@@ -68,10 +69,10 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? isCompleted = null,
   }) {
     return _then(_value.copyWith(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -105,7 +106,7 @@ abstract class _$$TaskModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int id,
+      {int? id,
       String title,
       String description,
       Duration duration,
@@ -124,7 +125,7 @@ class __$$TaskModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
+    Object? id = freezed,
     Object? title = null,
     Object? description = null,
     Object? duration = null,
@@ -132,10 +133,10 @@ class __$$TaskModelImplCopyWithImpl<$Res>
     Object? isCompleted = null,
   }) {
     return _then(_$TaskModelImpl(
-      id: null == id
+      id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as int,
+              as int?,
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
@@ -175,13 +176,14 @@ class _$TaskModelImpl implements _TaskModel {
       _$$TaskModelImplFromJson(json);
 
   @override
-  final int id;
+  final int? id;
   @override
   final String title;
   @override
   final String description;
   @override
   final Duration duration;
+// int microseconds
   @override
   final bool isRunning;
   @override
@@ -230,7 +232,7 @@ class _$TaskModelImpl implements _TaskModel {
 
 abstract class _TaskModel implements TaskModel {
   const factory _TaskModel(
-      {required final int id,
+      {required final int? id,
       required final String title,
       required final String description,
       required final Duration duration,
@@ -241,14 +243,14 @@ abstract class _TaskModel implements TaskModel {
       _$TaskModelImpl.fromJson;
 
   @override
-  int get id;
+  int? get id;
   @override
   String get title;
   @override
   String get description;
   @override
   Duration get duration;
-  @override
+  @override // int microseconds
   bool get isRunning;
   @override
   bool get isCompleted;
