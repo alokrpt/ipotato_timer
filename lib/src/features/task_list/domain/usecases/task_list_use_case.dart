@@ -1,6 +1,6 @@
 import 'package:either_dart/either.dart';
-import 'package:ipotato_timer/src/core/error/custom_error.dart';
-import 'package:ipotato_timer/src/core/usecase/usecase.dart';
+import '../../../../core/error/custom_error.dart';
+import '../../../../core/usecase/usecase.dart';
 
 import '../../../add_task/data/models/task_model.dart';
 import '../repositories/task_list_repository.dart';

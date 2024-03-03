@@ -1,5 +1,5 @@
 import 'package:either_dart/either.dart';
-import 'package:ipotato_timer/src/core/error/custom_error.dart';
+import '../../../../core/error/custom_error.dart';
 
 import '../../../../core/error/error_type.dart';
 import '../../../add_task/data/models/task_model.dart';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import '../../../task_item/presentation/widgets/task_item.dart';
 
 import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../add_task/presentation/pages/add_task_dialog.dart';
@@ -45,9 +46,9 @@ class TaskListScreen extends StatelessWidget {
             itemCount: taskListStore.tasks.length,
             itemBuilder: (context, index) {
               final task = taskListStore.tasks[index];
-              return ListTile(
-                title: Text(task.title),
-                subtitle: Text(task.description),
+              return TaskItem(
+                task: task,
+                taskStore: sl(),
               );
             },
           );

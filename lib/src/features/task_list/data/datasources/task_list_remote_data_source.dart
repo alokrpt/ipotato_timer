@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
-import 'package:ipotato_timer/src/core/database/data_source_client.dart';
-import 'package:ipotato_timer/src/features/add_task/data/models/task_model.dart';
+import '../../../../core/database/data_source_client.dart';
+import '../../../add_task/data/models/task_model.dart';
 
 abstract class TaskListRemoteDataSource {
   /// get  from server

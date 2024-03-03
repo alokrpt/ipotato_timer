@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ipotato_timer/src/core/dependency_injection/injection_container.dart';
-import 'package:ipotato_timer/src/features/task_list/presentation/pages/task_list_screen.dart';
+
+import 'src/core/dependency_injection/injection_container.dart';
+import 'src/features/task_list/presentation/pages/task_list_screen.dart';
 
 void main() {
   initDependencyInjection();

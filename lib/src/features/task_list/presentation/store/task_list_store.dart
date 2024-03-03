@@ -1,6 +1,6 @@
-import 'package:ipotato_timer/src/core/usecase/usecase.dart';
-import 'package:ipotato_timer/src/features/add_task/data/models/task_model.dart';
-import 'package:ipotato_timer/src/features/task_list/domain/usecases/task_list_use_case.dart';
+import '../../../../core/usecase/usecase.dart';
+import '../../../add_task/data/models/task_model.dart';
+import '../../domain/usecases/task_list_use_case.dart';
 import 'package:mobx/mobx.dart';
 
 part 'task_list_store.g.dart';
