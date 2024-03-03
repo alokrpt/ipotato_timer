@@ -60,12 +60,22 @@ class AddTaskDialog extends StatelessWidget {
                 return const CircularProgressIndicator();
               }
               return ElevatedButton(
-                onPressed: store.formKey.currentState?.validate() == true &&
-                        store.duration != Duration.zero
-                    ? () {
-                        store.addTask();
-                      }
-                    : null,
+                onPressed: () {
+                  if (store.formKey.currentState?.validate() == false) {
+                    return;
+                  }
+                  if (store.duration == Duration.zero) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text('Please enter a duration'),
+                      ),
+                    );
+                    return;
+                  } else {
+                    store.addTask();
+                  }
+                },
                 child: const Text('Add Task'),
               );
             },

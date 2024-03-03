@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../../core/presentation/gap.dart';
@@ -36,40 +35,34 @@ class _DurationInputWidgetState extends State<DurationInputWidget> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Observer(
-          builder: (_) => Expanded(
-            child: TextField(
-              keyboardType: TextInputType.number,
-              onChanged: (value) =>
-                  widget.store.updateHours(int.tryParse(value) ?? 0),
-              decoration: const InputDecoration(labelText: 'Hours'),
-            ),
+        Expanded(
+          child: TextField(
+            keyboardType: TextInputType.number,
+            onChanged: (value) =>
+                widget.store.updateHours(int.tryParse(value) ?? 0),
+            decoration: const InputDecoration(labelText: 'Hours'),
           ),
         ),
         const Gap(4),
         const Text(' : ', style: TextStyles.labelText),
         const Gap(4),
-        Observer(
-          builder: (_) => Expanded(
-            child: TextField(
-              keyboardType: TextInputType.number,
-              onChanged: (value) =>
-                  widget.store.updateMinutes(int.tryParse(value) ?? 0),
-              decoration: const InputDecoration(labelText: 'Minutes'),
-            ),
+        Expanded(
+          child: TextField(
+            keyboardType: TextInputType.number,
+            onChanged: (value) =>
+                widget.store.updateMinutes(int.tryParse(value) ?? 0),
+            decoration: const InputDecoration(labelText: 'Minutes'),
           ),
         ),
         const Gap(4),
         const Text(': ', style: TextStyles.labelText),
         const Gap(4),
-        Observer(
-          builder: (_) => Expanded(
-            child: TextField(
-              keyboardType: TextInputType.number,
-              onChanged: (value) =>
-                  widget.store.updateSeconds(int.tryParse(value) ?? 0),
-              decoration: const InputDecoration(labelText: 'Seconds'),
-            ),
+        Expanded(
+          child: TextField(
+            keyboardType: TextInputType.number,
+            onChanged: (value) =>
+                widget.store.updateSeconds(int.tryParse(value) ?? 0),
+            decoration: const InputDecoration(labelText: 'Seconds'),
           ),
         ),
       ],
