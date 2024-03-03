@@ -1,9 +1,9 @@
 import 'package:either_dart/either.dart';
-import '../../domain/usecases/delete_task_use_case.dart';
 
 import '../../../../core/error/custom_error.dart';
 import '../../../../core/error/error_type.dart';
 import '../../domain/repositories/task_item_repository.dart';
+import '../../domain/usecases/delete_task_use_case.dart';
 import '../../domain/usecases/update_task_use_case.dart';
 import '../datasources/task_item_data_source.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ipotato_timer/src/core/error/custom_error.dart';
-import 'package:ipotato_timer/src/core/error/error_type.dart';
+import '../../../../core/error/custom_error.dart';
+import '../../../../core/error/error_type.dart';
 
 import '../../../../core/data/data_source/data_source_client.dart';
 import '../../domain/usecases/add_task_use_case.dart';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:ipotato_timer/src/core/error/error_type.dart';
+import '../../../../core/error/error_type.dart';
 
 import '../../../../core/data/data_source/data_source_client.dart';
 import '../../../../core/error/custom_error.dart';

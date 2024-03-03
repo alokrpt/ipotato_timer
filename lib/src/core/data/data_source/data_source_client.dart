@@ -1,4 +1,4 @@
-import 'package:ipotato_timer/src/features/add_task/data/models/task_model.dart';
+import '../../../features/add_task/data/models/task_model.dart';
 
 abstract class DataSourceClient {
   Future<void> update(TaskModel task);

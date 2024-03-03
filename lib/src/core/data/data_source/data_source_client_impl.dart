@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:ipotato_timer/src/core/data/database/app_database.dart';
-import 'package:ipotato_timer/src/features/add_task/data/models/task_model.dart';
-import 'package:ipotato_timer/src/features/add_task/data/models/task_model_extension.dart';
+import '../database/app_database.dart';
+import '../../../features/add_task/data/models/task_model.dart';
+import '../../../features/add_task/data/models/task_model_extension.dart';
 
 import 'data_source_client.dart';
 

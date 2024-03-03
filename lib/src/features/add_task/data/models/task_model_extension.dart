@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:ipotato_timer/src/features/add_task/data/models/task_model.dart';
+import 'task_model.dart';
 
 import '../../../../core/data/database/app_database.dart';
 

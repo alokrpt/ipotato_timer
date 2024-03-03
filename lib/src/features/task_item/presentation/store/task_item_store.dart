@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:ipotato_timer/src/core/audio/audio_player.dart';
+import '../../../../core/audio/audio_player.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../add_task/data/models/task_model.dart';

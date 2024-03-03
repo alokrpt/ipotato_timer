@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:ipotato_timer/src/features/task_item/presentation/store/task_item_store.dart';
+import '../../../task_item/presentation/store/task_item_store.dart';
 
 import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../add_task/presentation/pages/add_task_dialog.dart';
