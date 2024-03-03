@@ -70,31 +70,37 @@ class TaskListScreen extends StatelessWidget {
               ),
             );
           }
-          return ListView.builder(
-            itemCount: taskListStore.tasks.length,
-            itemBuilder: (context, index) {
-              final task = taskListStore.tasks[index];
-              return TaskItem(
-                key: UniqueKey(),
-                task: task,
-                onDelete: taskListStore.deleteTask,
-                taskStore: taskListStore.taskItemStores[task.id!] ??
-                    TaskItemStore(
-                      deleteTaskUseCase: sl(),
-                      updateTaskUseCase: sl(),
-                      audioPlayer: sl(),
-                    ),
-              );
-            },
+          return Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView.builder(
+              itemCount: taskListStore.tasks.length,
+              itemBuilder: (context, index) {
+                final task = taskListStore.tasks[index];
+                return TaskItem(
+                  key: UniqueKey(),
+                  task: task,
+                  onDelete: taskListStore.deleteTask,
+                  taskStore: taskListStore.taskItemStores[task.id!] ??
+                      TaskItemStore(
+                        deleteTaskUseCase: sl(),
+                        updateTaskUseCase: sl(),
+                        audioPlayer: sl(),
+                      ),
+                );
+              },
+            ),
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30),
+        ),
+        
         onPressed: () async {
           final result = await showDialog(
             context: context,
             useSafeArea: true,
-
             builder: (context) {
               return Dialog(
                 shape: RoundedRectangleBorder(
@@ -112,8 +118,8 @@ class TaskListScreen extends StatelessWidget {
           }
         },
         child: const Icon(
-          Icons.add_circle_outline_sharp,
-          size: 35,
+          Icons.add,
+          size: 34,
         ),
       ),
     );

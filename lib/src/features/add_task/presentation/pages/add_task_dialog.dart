@@ -7,6 +7,7 @@ import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../../core/presentation/gap.dart';
 import '../../../../core/presentation/text_styles.dart';
 import '../store/add_task_store.dart';
+import 'widgets/button_item.dart';
 import 'widgets/duration_input/duration_input_widget.dart';
 
 class AddTaskDialog extends StatefulWidget {
@@ -86,7 +87,8 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
               if (widget.store.status == AddTaskStatus.loading) {
                 return const CircularProgressIndicator();
               }
-              return InkWell(
+              return ButtonItem(
+                text: 'Add Task',
                 onTap: () {
                   if (widget.store.formKey.currentState?.validate() == false) {
                     return;
@@ -102,23 +104,6 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                     widget.store.addTask();
                   }
                 },
-                child: Container(
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(20),
-                  decoration: const BoxDecoration(
-                    color: Color.fromARGB(255, 208, 205, 255),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20.0),
-                      bottomRight: Radius.circular(20.0),
-                    ),
-                  ),
-                  child: const Align(
-                    child: Text(
-                      'Add Task',
-                      style: TextStyles.actionText,
-                    ),
-                  ),
-                ),
               );
             },
           ),
