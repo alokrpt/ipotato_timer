@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import '../../../task_item/presentation/store/task_item_store.dart';
+import 'package:ipotato_timer/src/core/presentation/gap.dart';
 
 import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../add_task/presentation/pages/add_task_dialog.dart';
+import '../../../task_item/presentation/store/task_item_store.dart';
 import '../../../task_item/presentation/widgets/task_item.dart';
 import '../store/task_list_store.dart';
 
@@ -21,7 +22,13 @@ class TaskListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('iPotato Timer'),
+        backgroundColor: Theme.of(context).primaryColor,
+        title: const Text(
+          'iPotato Timer',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       body: Observer(
         builder: (_) {
@@ -38,29 +45,31 @@ class TaskListScreen extends StatelessWidget {
           }
 
           if (taskListStore.tasks.isEmpty) {
-            return const Center(
-              child: Text('No tasks found.'),
+            return Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 120,
+                  right: 20,
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const Text(
+                      'No timers active. \nPress here to start a new one',
+                    ),
+                    const Gap(10),
+                    Image.asset(
+                      'assets/images/down_arrow.png',
+                      height: 100,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+              ),
             );
           }
-          // return ListView.custom(
-          //   physics: const AlwaysScrollableScrollPhysics(),
-          //   childrenDelegate: SliverChildBuilderDelegate(
-          //     (context, index) {
-          //     final task = taskListStore.tasks[index];
-          //     return TaskItem(
-          //         key: ValueKey(task.id),
-          //         task: task,
-          //     );
-          //   },
-          //     childCount: taskListStore.tasks.length,
-          //     findChildIndexCallback: (key) {
-          //       final ValueKey<int?> valueKey = key as ValueKey<int?>;
-          //       final index = taskListStore.tasks
-          //           .indexWhere((task) => task.id == valueKey.value);
-          //       return index;
-          //     },
-          //   ),
-          // );
           return ListView.builder(
             itemCount: taskListStore.tasks.length,
             itemBuilder: (context, index) {
@@ -84,9 +93,15 @@ class TaskListScreen extends StatelessWidget {
         onPressed: () async {
           final result = await showDialog(
             context: context,
+            useSafeArea: true,
+
             builder: (context) {
-              return AlertDialog(
-                content: AddTaskDialog(
+              return Dialog(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(20.0),
+                ),
+                insetPadding: const EdgeInsets.all(30),
+                child: AddTaskDialog(
                   store: sl(),
                 ),
               );
@@ -96,7 +111,10 @@ class TaskListScreen extends StatelessWidget {
             taskListStore.fetchTasks();
           }
         },
-        child: const Icon(Icons.add),
+        child: const Icon(
+          Icons.add_circle_outline_sharp,
+          size: 35,
+        ),
       ),
     );
   }

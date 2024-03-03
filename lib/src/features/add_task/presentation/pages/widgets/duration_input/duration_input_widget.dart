@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../../../core/presentation/gap.dart';
@@ -32,40 +34,80 @@ class _DurationInputWidgetState extends State<DurationInputWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Expanded(
-          child: TextField(
-            keyboardType: TextInputType.number,
-            onChanged: (value) =>
-                widget.store.updateHours(int.tryParse(value) ?? 0),
-            decoration: const InputDecoration(labelText: 'Hours'),
-          ),
-        ),
-        const Gap(4),
-        const Text(' : ', style: TextStyles.labelText),
-        const Gap(4),
-        Expanded(
-          child: TextField(
-            keyboardType: TextInputType.number,
-            onChanged: (value) =>
-                widget.store.updateMinutes(int.tryParse(value) ?? 0),
-            decoration: const InputDecoration(labelText: 'Minutes'),
-          ),
-        ),
-        const Gap(4),
-        const Text(': ', style: TextStyles.labelText),
-        const Gap(4),
-        Expanded(
-          child: TextField(
-            keyboardType: TextInputType.number,
-            onChanged: (value) =>
-                widget.store.updateSeconds(int.tryParse(value) ?? 0),
-            decoration: const InputDecoration(labelText: 'Seconds'),
-          ),
-        ),
-      ],
+    return Observer(
+      builder: (_) {
+        return Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Expanded(
+              child: TextField(
+                keyboardType: TextInputType.number,
+                onChanged: (value) =>
+                    widget.store.updateHours(int.tryParse(value) ?? 0),
+                textAlign: TextAlign.center,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'^\d{0,2}$'),
+                    replacementString: widget.store.hours.toString(),
+                  )
+                ],
+                decoration: const InputDecoration(
+                  labelText: 'HH',
+                  hintText: '00',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            const Gap(4),
+            const Text(' : ', style: TextStyles.labelText),
+            const Gap(4),
+            Expanded(
+              child: TextField(
+                keyboardType: TextInputType.number,
+                onChanged: (value) =>
+                    widget.store.updateMinutes(int.tryParse(value) ?? 0),
+                textAlign: TextAlign.center,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  FilteringTextInputFormatter.allow(
+                    RegExp(r'^\d{0,2}$'),
+                    replacementString: widget.store.minutes.toString(),
+                  )
+                ],
+                decoration: const InputDecoration(
+                  labelText: 'MM',
+                  hintText: '00',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+            ),
+            const Gap(4),
+            const Text(': ', style: TextStyles.labelText),
+            const Gap(4),
+            Expanded(
+              child: TextField(
+                  keyboardType: TextInputType.number,
+                  onChanged: (value) =>
+                      widget.store.updateSeconds(int.tryParse(value) ?? 0),
+                  textAlign: TextAlign.center,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    FilteringTextInputFormatter.allow(
+                      RegExp(r'^\d{0,2}$'),
+                      replacementString: widget.store.seconds.toString(),
+                    )
+                  ],
+                  decoration: const InputDecoration(
+                    alignLabelWithHint: true,
+                    labelText: 'SS',
+                    hintText: '00',
+                    border: OutlineInputBorder(),
+                  )),
+            ),
+          ],
+        );
+      },
     );
   }
 

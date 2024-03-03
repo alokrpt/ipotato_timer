@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../../core/dependency_injection/injection_container.dart';
@@ -28,71 +29,96 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
     setupReactions();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Form(
       key: widget.store.formKey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
-            'Add Task',
-            style: TextStyles.pageTitle,
-          ),
-          const Gap(20),
-          TextFormField(
-            controller: widget.store.titleController,
-            decoration: const InputDecoration(
-              labelText: 'Title',
-              border: OutlineInputBorder(),
-            ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter a title';
-              }
-              return null;
-            },
-          ),
-          const Gap(20),
-          TextFormField(
-            controller: widget.store.descriptionController,
-            decoration: const InputDecoration(
-              labelText: 'Description',
-              border: OutlineInputBorder(),
-            ),
-          ),
-          const Gap(20),
-          DurationInputWidget(
-            store: sl(),
-            onDurationChanged: (duration) {
-              widget.store.duration = duration;
-            },
-          ),
+          Padding(
+              padding: const EdgeInsets.all(30),
+              child: Column(
+                children: [
+                  const Text(
+                    'Add Task',
+                    style: TextStyles.pageTitle,
+                  ),
+                  const Gap(20),
+                  TextFormField(
+                    controller: widget.store.titleController,
+                    decoration: const InputDecoration(
+                      labelText: 'Title',
+                      hintText: 'Super Developer',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please enter a title';
+                      }
+                      return null;
+                    },
+                  ),
+                  const Gap(20),
+                  TextFormField(
+                    controller: widget.store.descriptionController,
+                    minLines: 3,
+                    maxLines: 5,
+                    decoration: const InputDecoration(
+                      labelText: 'Description',
+                      hintText: 'e.g. john@gmail.com',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  const Gap(20),
+                  DurationInputWidget(
+                    store: sl(),
+                    onDurationChanged: (duration) {
+                      widget.store.duration = duration;
+                    },
+                  ),
+                ],
+              )),
           const Gap(20),
           Observer(
-            builder: (context) {
+            builder: (_) {
               if (widget.store.status == AddTaskStatus.loading) {
                 return const CircularProgressIndicator();
               }
-              return ElevatedButton(
-                onPressed: () {
+              return InkWell(
+                onTap: () {
                   if (widget.store.formKey.currentState?.validate() == false) {
                     return;
                   }
                   if (widget.store.duration == Duration.zero) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        backgroundColor: Colors.red,
-                        content: Text('Please enter a duration'),
-                      ),
+                    Fluttertoast.showToast(
+                      msg: 'Please enter duration',
+                      backgroundColor: Colors.red.withOpacity(.6),
+                      toastLength: Toast.LENGTH_SHORT,
                     );
                     return;
                   } else {
                     widget.store.addTask();
                   }
                 },
-                child: const Text('Add Task'),
+                child: Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(20),
+                  decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 208, 205, 255),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20.0),
+                      bottomRight: Radius.circular(20.0),
+                    ),
+                  ),
+                  child: const Align(
+                    child: Text(
+                      'Add Task',
+                      style: TextStyles.actionText,
+                    ),
+                  ),
+                ),
               );
             },
           ),

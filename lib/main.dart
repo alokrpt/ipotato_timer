@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'src/core/constants/color_constants.dart';
 import 'src/core/dependency_injection/injection_container.dart';
 import 'src/features/task_list/presentation/pages/task_list_screen.dart';
 
@@ -18,7 +19,9 @@ class MyApp extends StatelessWidget {
       title: 'iPotato Timer',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: ColorConstants.primaryColor,
+        ),
         useMaterial3: true,
       ),
       home: TaskListScreen(

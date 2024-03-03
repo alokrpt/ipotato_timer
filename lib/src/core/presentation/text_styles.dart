@@ -11,6 +11,7 @@ abstract final class TextStyles {
   );
   static const actionText = TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.bold,
+
   );
 }

@@ -24,6 +24,8 @@ dependencies:
   path_provider: ^2.1.2
   path: ^1.9.0
   assets_audio_player: ^3.1.1
+  flutter_native_splash: ^2.3.10
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:
@@ -44,3 +46,22 @@ flutter:
 
   assets:
     - assets/audio/
+    - assets/images/
+
+
+
+
+
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/icon.png
+  color_dark: "#121212"
+  image_dark: assets/images/icon.png
+
+  android_12:
+    image: assets/images/icon.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/images/icon.png
+    icon_background_color_dark: "#121212"
+
+  web: false

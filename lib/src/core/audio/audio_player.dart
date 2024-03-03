@@ -11,8 +11,7 @@ class AudioPlayer {
     _audioPlayer.open(
       _audio,
       loopMode: LoopMode.playlist,
-      // playInBackground: PlayInBackground.enabled,
-      // autoStart: true,
+      playInBackground: PlayInBackground.enabled,
       showNotification: true,
     );
   }
