@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 import '../../../../core/database/data_source_client.dart';
 import '../../domain/usecases/add_task_use_case.dart';
 
@@ -13,5 +15,7 @@ class AddTaskDataSourceImpl implements AddTaskDataSource {
   AddTaskDataSourceImpl(this.client);
 
   @override
-  Future<void> addTask(AddTaskParams params) async {}
+  Future<void> addTask(AddTaskParams params) async {
+    debugPrint('AddTaskDataSourceImpl ${params.taskModel.toJson()}');
+  }
 }
