@@ -1,7 +1,10 @@
 import 'package:mobx/mobx.dart';
 
-class DurationInputStore = _DurationInputStore with _$DurationInputStore;
+part 'duration_input_store.g.dart';
 
+class DurationInputStore extends _DurationInputStore with _$DurationInputStore {
+  DurationInputStore();
+}
 abstract class _DurationInputStore with Store {
   @observable
   int hours = 0;
@@ -29,5 +32,12 @@ abstract class _DurationInputStore with Store {
   @action
   void updateSeconds(int value) {
     seconds = value;
+  }
+
+  @action
+  void init() {
+    hours = 0;
+    minutes = 0;
+    seconds = 0;
   }
 }

@@ -1,10 +1,13 @@
 import 'package:get_it/get_it.dart';
+import 'package:ipotato_timer/src/core/database/data_source_client.dart';
+import 'package:ipotato_timer/src/core/database/data_source_client_impl.dart';
 import 'package:ipotato_timer/src/features/add_task/presentation/pages/widgets/duration_input/duration_input_store.dart';
 
 import '../../features/add_task/data/datasources/add_task_data_source.dart';
 import '../../features/add_task/data/repositories/add_task_repository_impl.dart';
 import '../../features/add_task/domain/repositories/add_task_repository.dart';
 import '../../features/add_task/domain/usecases/add_task_use_case.dart';
+import '../../features/add_task/presentation/store/add_task_store.dart';
 
 final sl = GetIt.instance;
 
@@ -29,6 +32,9 @@ void _storeSl() {
   sl.registerLazySingleton(
     () => DurationInputStore(),
   );
+  sl.registerLazySingleton(
+    () => AddTaskStore(sl()),
+  );
 }
 
 void _dataSourcesSl() {
@@ -49,4 +55,8 @@ void _useCasesSl() {
   );
 }
 
-void _coreSl() {}
+void _coreSl() {
+  sl.registerLazySingleton<DataSourceClient>(
+    () => DataSourceClientImpl(),
+  );
+}
