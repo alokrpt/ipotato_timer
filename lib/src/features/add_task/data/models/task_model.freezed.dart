@@ -24,8 +24,7 @@ mixin _$TaskModel {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   Duration get duration =>
-      throw _privateConstructorUsedError; // int microseconds
-  bool get isRunning => throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; // int milliseconds
   bool get isCompleted => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -44,7 +43,6 @@ abstract class $TaskModelCopyWith<$Res> {
       String title,
       String description,
       Duration duration,
-      bool isRunning,
       bool isCompleted});
 }
 
@@ -65,7 +63,6 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
     Object? title = null,
     Object? description = null,
     Object? duration = null,
-    Object? isRunning = null,
     Object? isCompleted = null,
   }) {
     return _then(_value.copyWith(
@@ -85,10 +82,6 @@ class _$TaskModelCopyWithImpl<$Res, $Val extends TaskModel>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as Duration,
-      isRunning: null == isRunning
-          ? _value.isRunning
-          : isRunning // ignore: cast_nullable_to_non_nullable
-              as bool,
       isCompleted: null == isCompleted
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
@@ -110,7 +103,6 @@ abstract class _$$TaskModelImplCopyWith<$Res>
       String title,
       String description,
       Duration duration,
-      bool isRunning,
       bool isCompleted});
 }
 
@@ -129,7 +121,6 @@ class __$$TaskModelImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = null,
     Object? duration = null,
-    Object? isRunning = null,
     Object? isCompleted = null,
   }) {
     return _then(_$TaskModelImpl(
@@ -149,10 +140,6 @@ class __$$TaskModelImplCopyWithImpl<$Res>
           ? _value.duration
           : duration // ignore: cast_nullable_to_non_nullable
               as Duration,
-      isRunning: null == isRunning
-          ? _value.isRunning
-          : isRunning // ignore: cast_nullable_to_non_nullable
-              as bool,
       isCompleted: null == isCompleted
           ? _value.isCompleted
           : isCompleted // ignore: cast_nullable_to_non_nullable
@@ -163,14 +150,14 @@ class __$$TaskModelImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$TaskModelImpl implements _TaskModel {
+class _$TaskModelImpl extends _TaskModel {
   const _$TaskModelImpl(
       {required this.id,
       required this.title,
       required this.description,
       required this.duration,
-      required this.isRunning,
-      required this.isCompleted});
+      required this.isCompleted})
+      : super._();
 
   factory _$TaskModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TaskModelImplFromJson(json);
@@ -183,15 +170,13 @@ class _$TaskModelImpl implements _TaskModel {
   final String description;
   @override
   final Duration duration;
-// int microseconds
-  @override
-  final bool isRunning;
+// int milliseconds
   @override
   final bool isCompleted;
 
   @override
   String toString() {
-    return 'TaskModel(id: $id, title: $title, description: $description, duration: $duration, isRunning: $isRunning, isCompleted: $isCompleted)';
+    return 'TaskModel(id: $id, title: $title, description: $description, duration: $duration, isCompleted: $isCompleted)';
   }
 
   @override
@@ -205,16 +190,14 @@ class _$TaskModelImpl implements _TaskModel {
                 other.description == description) &&
             (identical(other.duration, duration) ||
                 other.duration == duration) &&
-            (identical(other.isRunning, isRunning) ||
-                other.isRunning == isRunning) &&
             (identical(other.isCompleted, isCompleted) ||
                 other.isCompleted == isCompleted));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, title, description, duration, isRunning, isCompleted);
+  int get hashCode =>
+      Object.hash(runtimeType, id, title, description, duration, isCompleted);
 
   @JsonKey(ignore: true)
   @override
@@ -230,14 +213,14 @@ class _$TaskModelImpl implements _TaskModel {
   }
 }
 
-abstract class _TaskModel implements TaskModel {
+abstract class _TaskModel extends TaskModel {
   const factory _TaskModel(
       {required final int? id,
       required final String title,
       required final String description,
       required final Duration duration,
-      required final bool isRunning,
       required final bool isCompleted}) = _$TaskModelImpl;
+  const _TaskModel._() : super._();
 
   factory _TaskModel.fromJson(Map<String, dynamic> json) =
       _$TaskModelImpl.fromJson;
@@ -250,9 +233,7 @@ abstract class _TaskModel implements TaskModel {
   String get description;
   @override
   Duration get duration;
-  @override // int microseconds
-  bool get isRunning;
-  @override
+  @override // int milliseconds
   bool get isCompleted;
   @override
   @JsonKey(ignore: true)

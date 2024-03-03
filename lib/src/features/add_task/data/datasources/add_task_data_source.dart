@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/data_source/data_source_client.dart';
+import '../../../../core/data/data_source/data_source_client.dart';
 import '../../domain/usecases/add_task_use_case.dart';
 
 abstract class AddTaskDataSource {

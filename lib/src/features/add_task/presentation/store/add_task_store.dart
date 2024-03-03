@@ -40,7 +40,6 @@ abstract class _AddTaskStore with Store {
           description: descriptionController.text,
           duration: duration,
           isCompleted: false,
-          isRunning: false,
           id: null,
         ),
       ),

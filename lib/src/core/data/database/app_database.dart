@@ -1,13 +1,15 @@
 import 'package:drift/drift.dart';
 
+import 'connection/connection.dart' as impl;
 import 'database_model.dart';
 
 part 'app_database.g.dart';
 
 @DriftDatabase(tables: [Tasks])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase(super.e);
+  AppDatabase() : super(impl.connect());
 
+  AppDatabase.forTesting(DatabaseConnection super.connection);
   @override
   int get schemaVersion => 1;
 
@@ -15,7 +17,7 @@ class AppDatabase extends _$AppDatabase {
 
   Stream<List<Task>> watchAllTasks() => select(tasks).watch();
 
-  Future insertTask(Task task) => into(tasks).insert(task);
+  Future insertTask(TasksCompanion task) => into(tasks).insert(task);
 
   Future updateTask(Task task) => update(tasks).replace(task);
 

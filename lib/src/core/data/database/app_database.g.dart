@@ -26,8 +26,16 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
       const VerificationMeta('description');
   @override
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      'description', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _durationMeta =
+      const VerificationMeta('duration');
+  @override
+  late final GeneratedColumn<int> duration = GeneratedColumn<int>(
+      'duration', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
   static const VerificationMeta _isCompletedMeta =
       const VerificationMeta('isCompleted');
   @override
@@ -39,7 +47,8 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
           'CHECK ("is_completed" IN (0, 1))'),
       defaultValue: const Constant(false));
   @override
-  List<GeneratedColumn> get $columns => [id, title, description, isCompleted];
+  List<GeneratedColumn> get $columns =>
+      [id, title, description, duration, isCompleted];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -64,8 +73,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
           _descriptionMeta,
           description.isAcceptableOrUnknown(
               data['description']!, _descriptionMeta));
-    } else if (isInserting) {
-      context.missing(_descriptionMeta);
+    }
+    if (data.containsKey('duration')) {
+      context.handle(_durationMeta,
+          duration.isAcceptableOrUnknown(data['duration']!, _durationMeta));
     }
     if (data.containsKey('is_completed')) {
       context.handle(
@@ -87,7 +98,9 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      duration: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}duration'])!,
       isCompleted: attachedDatabase.typeMapping
           .read(DriftSqlType.bool, data['${effectivePrefix}is_completed'])!,
     );
@@ -102,19 +115,24 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
 class Task extends DataClass implements Insertable<Task> {
   final int id;
   final String title;
-  final String description;
+  final String? description;
+  final int duration;
   final bool isCompleted;
   const Task(
       {required this.id,
       required this.title,
-      required this.description,
+      this.description,
+      required this.duration,
       required this.isCompleted});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
     map['title'] = Variable<String>(title);
-    map['description'] = Variable<String>(description);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['duration'] = Variable<int>(duration);
     map['is_completed'] = Variable<bool>(isCompleted);
     return map;
   }
@@ -123,7 +141,10 @@ class Task extends DataClass implements Insertable<Task> {
     return TasksCompanion(
       id: Value(id),
       title: Value(title),
-      description: Value(description),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      duration: Value(duration),
       isCompleted: Value(isCompleted),
     );
   }
@@ -134,7 +155,8 @@ class Task extends DataClass implements Insertable<Task> {
     return Task(
       id: serializer.fromJson<int>(json['id']),
       title: serializer.fromJson<String>(json['title']),
-      description: serializer.fromJson<String>(json['description']),
+      description: serializer.fromJson<String?>(json['description']),
+      duration: serializer.fromJson<int>(json['duration']),
       isCompleted: serializer.fromJson<bool>(json['isCompleted']),
     );
   }
@@ -144,17 +166,23 @@ class Task extends DataClass implements Insertable<Task> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'title': serializer.toJson<String>(title),
-      'description': serializer.toJson<String>(description),
+      'description': serializer.toJson<String?>(description),
+      'duration': serializer.toJson<int>(duration),
       'isCompleted': serializer.toJson<bool>(isCompleted),
     };
   }
 
   Task copyWith(
-          {int? id, String? title, String? description, bool? isCompleted}) =>
+          {int? id,
+          String? title,
+          Value<String?> description = const Value.absent(),
+          int? duration,
+          bool? isCompleted}) =>
       Task(
         id: id ?? this.id,
         title: title ?? this.title,
-        description: description ?? this.description,
+        description: description.present ? description.value : this.description,
+        duration: duration ?? this.duration,
         isCompleted: isCompleted ?? this.isCompleted,
       );
   @override
@@ -163,13 +191,15 @@ class Task extends DataClass implements Insertable<Task> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('description: $description, ')
+          ..write('duration: $duration, ')
           ..write('isCompleted: $isCompleted')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, title, description, isCompleted);
+  int get hashCode =>
+      Object.hash(id, title, description, duration, isCompleted);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -177,37 +207,42 @@ class Task extends DataClass implements Insertable<Task> {
           other.id == this.id &&
           other.title == this.title &&
           other.description == this.description &&
+          other.duration == this.duration &&
           other.isCompleted == this.isCompleted);
 }
 
 class TasksCompanion extends UpdateCompanion<Task> {
   final Value<int> id;
   final Value<String> title;
-  final Value<String> description;
+  final Value<String?> description;
+  final Value<int> duration;
   final Value<bool> isCompleted;
   const TasksCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.description = const Value.absent(),
+    this.duration = const Value.absent(),
     this.isCompleted = const Value.absent(),
   });
   TasksCompanion.insert({
     this.id = const Value.absent(),
     required String title,
-    required String description,
+    this.description = const Value.absent(),
+    this.duration = const Value.absent(),
     this.isCompleted = const Value.absent(),
-  })  : title = Value(title),
-        description = Value(description);
+  }) : title = Value(title);
   static Insertable<Task> custom({
     Expression<int>? id,
     Expression<String>? title,
     Expression<String>? description,
+    Expression<int>? duration,
     Expression<bool>? isCompleted,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (description != null) 'description': description,
+      if (duration != null) 'duration': duration,
       if (isCompleted != null) 'is_completed': isCompleted,
     });
   }
@@ -215,12 +250,14 @@ class TasksCompanion extends UpdateCompanion<Task> {
   TasksCompanion copyWith(
       {Value<int>? id,
       Value<String>? title,
-      Value<String>? description,
+      Value<String?>? description,
+      Value<int>? duration,
       Value<bool>? isCompleted}) {
     return TasksCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
+      duration: duration ?? this.duration,
       isCompleted: isCompleted ?? this.isCompleted,
     );
   }
@@ -237,6 +274,9 @@ class TasksCompanion extends UpdateCompanion<Task> {
     if (description.present) {
       map['description'] = Variable<String>(description.value);
     }
+    if (duration.present) {
+      map['duration'] = Variable<int>(duration.value);
+    }
     if (isCompleted.present) {
       map['is_completed'] = Variable<bool>(isCompleted.value);
     }
@@ -249,6 +289,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
           ..write('id: $id, ')
           ..write('title: $title, ')
           ..write('description: $description, ')
+          ..write('duration: $duration, ')
           ..write('isCompleted: $isCompleted')
           ..write(')'))
         .toString();

@@ -12,7 +12,6 @@ _$TaskModelImpl _$$TaskModelImplFromJson(Map<String, dynamic> json) =>
       title: json['title'] as String,
       description: json['description'] as String,
       duration: Duration(microseconds: json['duration'] as int),
-      isRunning: json['isRunning'] as bool,
       isCompleted: json['isCompleted'] as bool,
     );
 
@@ -22,6 +21,5 @@ Map<String, dynamic> _$$TaskModelImplToJson(_$TaskModelImpl instance) =>
       'title': instance.title,
       'description': instance.description,
       'duration': instance.duration.inMicroseconds,
-      'isRunning': instance.isRunning,
       'isCompleted': instance.isCompleted,
     };

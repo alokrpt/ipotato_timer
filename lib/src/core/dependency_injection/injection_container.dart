@@ -17,8 +17,9 @@ import '../../features/task_list/data/repositories/task_list_repository_impl.dar
 import '../../features/task_list/domain/repositories/task_list_repository.dart';
 import '../../features/task_list/domain/usecases/task_list_use_case.dart';
 import '../../features/task_list/presentation/store/task_list_store.dart';
-import '../database/data_source/data_source_client.dart';
-import '../database/data_source/data_source_client_impl.dart';
+import '../data/data_source/data_source_client.dart';
+import '../data/data_source/data_source_client_impl.dart';
+import '../data/database/app_database.dart';
 
 final sl = GetIt.instance;
 
@@ -101,4 +102,7 @@ void _coreSl() {
   sl.registerLazySingleton<DataSourceClient>(
     () => DataSourceClientImpl(),
   );
+  sl.registerSingletonAsync<AppDatabase>(() async {
+    return AppDatabase();
+  });
 }

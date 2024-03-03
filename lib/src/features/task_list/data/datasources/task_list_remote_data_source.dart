@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../../core/database/data_source/data_source_client.dart';
+import '../../../../core/data/data_source/data_source_client.dart';
 import '../../../add_task/data/models/task_model.dart';
 
 abstract class TaskListRemoteDataSource {
@@ -25,7 +25,6 @@ class TaskListRemoteDataSourceImpl implements TaskListRemoteDataSource {
         description: 'Make Food Desc',
         duration: Duration(seconds: 30),
         isCompleted: false,
-        isRunning: false,
       ),
       const TaskModel(
         id: 53,
@@ -33,7 +32,7 @@ class TaskListRemoteDataSourceImpl implements TaskListRemoteDataSource {
         description: 'Make Food Desc 1',
         duration: Duration(seconds: 46),
         isCompleted: false,
-        isRunning: false,
+
       ),
       const TaskModel(
         id: 22,
@@ -41,7 +40,7 @@ class TaskListRemoteDataSourceImpl implements TaskListRemoteDataSource {
         description: 'Make Food Desc 2',
         duration: Duration(seconds: 350),
         isCompleted: false,
-        isRunning: false,
+
       ),
       const TaskModel(
         id: 222,
@@ -49,7 +48,7 @@ class TaskListRemoteDataSourceImpl implements TaskListRemoteDataSource {
         description: 'Make Food Desc 3',
         duration: Duration(seconds: 5),
         isCompleted: false,
-        isRunning: false,
+
       ),
     ];
   }
