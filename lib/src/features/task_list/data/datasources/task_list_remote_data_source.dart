@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 import '../../../../core/database/data_source_client.dart';
 import '../../../add_task/data/models/task_model.dart';
 
@@ -39,6 +40,14 @@ class TaskListRemoteDataSourceImpl implements TaskListRemoteDataSource {
         title: 'Make Food 2',
         description: 'Make Food Desc 2',
         duration: Duration(seconds: 350),
+        isCompleted: false,
+        isRunning: false,
+      ),
+      const TaskModel(
+        id: 222,
+        title: 'Make Food 22',
+        description: 'Make Food Desc 3',
+        duration: Duration(seconds: 5),
         isCompleted: false,
         isRunning: false,
       ),

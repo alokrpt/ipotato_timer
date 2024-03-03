@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import '../../../task_item/presentation/widgets/task_item.dart';
+import 'package:ipotato_timer/src/features/task_item/presentation/store/task_item_store.dart';
 
 import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../add_task/presentation/pages/add_task_dialog.dart';
+import '../../../task_item/presentation/widgets/task_item.dart';
 import '../store/task_list_store.dart';
 
 class TaskListScreen extends StatelessWidget {
@@ -48,7 +49,10 @@ class TaskListScreen extends StatelessWidget {
               final task = taskListStore.tasks[index];
               return TaskItem(
                 task: task,
-                taskStore: sl(),
+                taskStore: TaskItemStore(
+                  deleteTaskUseCase: sl(),
+                  updateTaskUseCase: sl(),
+                ),
               );
             },
           );
