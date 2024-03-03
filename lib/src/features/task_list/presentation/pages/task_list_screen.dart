@@ -6,10 +6,12 @@ import '../../../add_task/presentation/pages/add_task_dialog.dart';
 import '../store/task_list_store.dart';
 
 class TaskListScreen extends StatelessWidget {
-  const TaskListScreen({
+  TaskListScreen({
     super.key,
     required this.taskListStore,
-  });
+  }) {
+    taskListStore.fetchTasks();
+  }
 
   final TaskListStore taskListStore;
 
