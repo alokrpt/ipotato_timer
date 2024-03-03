@@ -9,6 +9,28 @@ part of 'task_item_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$TaskItemStore on _TaskItemStore, Store {
+  Computed<bool>? _$isFinishedComputed;
+
+  @override
+  bool get isFinished =>
+      (_$isFinishedComputed ??= Computed<bool>(() => super.isFinished,
+              name: '_TaskItemStore.isFinished'))
+          .value;
+  Computed<bool>? _$isRunningComputed;
+
+  @override
+  bool get isRunning =>
+      (_$isRunningComputed ??= Computed<bool>(() => super.isRunning,
+              name: '_TaskItemStore.isRunning'))
+          .value;
+  Computed<String>? _$formattedTimeComputed;
+
+  @override
+  String get formattedTime =>
+      (_$formattedTimeComputed ??= Computed<String>(() => super.formattedTime,
+              name: '_TaskItemStore.formattedTime'))
+          .value;
+
   late final _$taskModelAtom =
       Atom(name: '_TaskItemStore.taskModel', context: context);
 
@@ -96,7 +118,10 @@ mixin _$TaskItemStore on _TaskItemStore, Store {
   String toString() {
     return '''
 taskModel: ${taskModel},
-remainingDuration: ${remainingDuration}
+remainingDuration: ${remainingDuration},
+isFinished: ${isFinished},
+isRunning: ${isRunning},
+formattedTime: ${formattedTime}
     ''';
   }
 }

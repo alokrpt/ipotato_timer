@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
-import '../../../../core/database/data_source_client.dart';
+import '../../../../core/database/data_source/data_source_client.dart';
 import '../../../add_task/data/models/task_model.dart';
 
 abstract class TaskListRemoteDataSource {

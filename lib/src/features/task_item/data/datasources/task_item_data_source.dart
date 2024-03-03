@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/database/data_source_client.dart';
+import '../../../../core/database/data_source/data_source_client.dart';
 import '../../domain/usecases/delete_task_use_case.dart';
 import '../../domain/usecases/update_task_use_case.dart';
 
