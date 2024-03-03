@@ -73,6 +73,7 @@ class TaskListScreen extends StatelessWidget {
                     TaskItemStore(
                       deleteTaskUseCase: sl(),
                       updateTaskUseCase: sl(),
+                      audioPlayer: sl(),
                     ),
               );
             },

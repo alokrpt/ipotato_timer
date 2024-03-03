@@ -43,11 +43,12 @@ abstract class _TaskListStore with Store {
     List<int> taskIds = [];
 
     for (var element in fetchedTasks) {
-      if (!tasks.contains(element) && element.id != null) {
+      if (!tasks.any((task) => element.id == task.id) && element.id != null) {
         tasks.add(element);
         taskItemStores[element.id!] = TaskItemStore(
           deleteTaskUseCase: sl(),
           updateTaskUseCase: sl(),
+          audioPlayer: sl(),
         );
       }
       taskIds.add(element.id!);
@@ -64,7 +65,7 @@ abstract class _TaskListStore with Store {
 
   @action
   void deleteTask(int id) {
-    tasks.removeWhere((element) => element.id == id);
     taskItemStores.remove(id);
+    tasks.removeWhere((element) => element.id == id);
   }
 }

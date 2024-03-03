@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:ipotato_timer/src/core/audio/audio_player.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../add_task/data/models/task_model.dart';
@@ -12,23 +13,26 @@ class TaskItemStore extends _TaskItemStore with _$TaskItemStore {
   TaskItemStore({
     required super.deleteTaskUseCase,
     required super.updateTaskUseCase,
+    required super.audioPlayer,
   });
 }
 
 abstract class _TaskItemStore with Store {
   final DeleteTaskUseCase deleteTaskUseCase;
   final UpdateTaskUseCase updateTaskUseCase;
+  final AudioPlayer audioPlayer;
 
   _TaskItemStore({
     required this.deleteTaskUseCase,
     required this.updateTaskUseCase,
+    required this.audioPlayer,
   });
 
   @observable
   late TaskModel taskModel;
 
   @observable
-  Duration remainingDuration = Duration.zero;
+  Duration remainingDuration = const Duration(seconds: -1);
 
   @observable
   bool isRunning = false;
@@ -36,7 +40,7 @@ abstract class _TaskItemStore with Store {
   @action
   void init(TaskModel taskModel) {
     this.taskModel = taskModel;
-    if (remainingDuration == Duration.zero) {
+    if (remainingDuration == const Duration(seconds: -1)) {
       remainingDuration = taskModel.duration;
     }
   }
@@ -53,6 +57,7 @@ abstract class _TaskItemStore with Store {
     _timer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
       remainingDuration -= const Duration(seconds: 1);
       if (isFinished) {
+        playAudio();
         pauseTask();
       }
     });
@@ -74,6 +79,7 @@ abstract class _TaskItemStore with Store {
   @action
   Future<void> completeTask() async {
     await pauseTask();
+    stopAudio();
     final updatedTask = taskModel.copyWith(isCompleted: true);
     final result =
         await deleteTaskUseCase(DeleteTaskParams(id: updatedTask.id!));
@@ -99,5 +105,18 @@ abstract class _TaskItemStore with Store {
     String secondsStr = remainingSeconds.toString().padLeft(2, '0');
 
     return '$hoursStr:$minutesStr:$secondsStr';
+  }
+
+  void playAudio() {
+    isPlaying = true;
+    audioPlayer.play();
+  }
+
+  bool isPlaying = false;
+  void stopAudio() {
+    if (isPlaying) {
+      audioPlayer.stop();
+      isPlaying = false;
+    }
   }
 }

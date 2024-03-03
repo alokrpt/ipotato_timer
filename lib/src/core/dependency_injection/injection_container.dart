@@ -17,6 +17,7 @@ import '../../features/task_list/data/repositories/task_list_repository_impl.dar
 import '../../features/task_list/domain/repositories/task_list_repository.dart';
 import '../../features/task_list/domain/usecases/task_list_use_case.dart';
 import '../../features/task_list/presentation/store/task_list_store.dart';
+import '../audio/audio_player.dart';
 import '../data/data_source/data_source_client.dart';
 import '../data/data_source/data_source_client_impl.dart';
 import '../data/database/app_database.dart';
@@ -54,6 +55,7 @@ void _storeSl() {
     () => TaskItemStore(
       deleteTaskUseCase: sl(),
       updateTaskUseCase: sl(),
+      audioPlayer: sl(),
     ),
   );
 }
@@ -104,5 +106,8 @@ void _coreSl() {
   );
   sl.registerSingletonAsync<AppDatabase>(() async {
     return AppDatabase();
+  });
+  sl.registerSingletonAsync<AudioPlayer>(() async {
+    return AudioPlayer();
   });
 }
