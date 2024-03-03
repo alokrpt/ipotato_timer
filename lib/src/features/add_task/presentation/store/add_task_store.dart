@@ -31,6 +31,14 @@ abstract class _AddTaskStore with Store {
   void setDuration(Duration value) => duration = value;
 
   @action
+  void reset() {
+    titleController.clear();
+    descriptionController.clear();
+    duration = const Duration(seconds: 0);
+  }
+
+
+  @action
   Future<void> addTask() async {
     status = AddTaskStatus.loading;
     final result = await _addTaskUseCase(

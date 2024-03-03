@@ -19,7 +19,11 @@ class AppDatabase extends _$AppDatabase {
 
   Future insertTask(TasksCompanion task) => into(tasks).insert(task);
 
-  Future updateTask(Task task) => update(tasks).replace(task);
+  Future updateTask(TasksCompanion task) => update(tasks).replace(task);
 
   Future deleteTask(Task task) => delete(tasks).delete(task);
+
+  Future deleteTaskById(int id) =>
+      (delete(tasks)..where((t) => t.id.equals(id))).go();
+
 }

@@ -1,7 +1,6 @@
 import 'package:either_dart/either.dart';
-import '../../../../core/error/custom_error.dart';
-import '../../../add_task/data/models/task_model.dart';
 
+import '../../../../core/error/custom_error.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../repositories/task_item_repository.dart';
 
@@ -17,9 +16,9 @@ class DeleteTaskUseCase implements UseCase<void, DeleteTaskParams> {
 }
 
 class DeleteTaskParams {
-  final TaskModel task;
+  final int id;
 
   const DeleteTaskParams({
-    required this.task,
+    required this.id,
   });
 }

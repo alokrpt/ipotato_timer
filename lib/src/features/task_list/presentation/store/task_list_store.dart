@@ -1,7 +1,10 @@
+import 'package:mobx/mobx.dart';
+
+import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../../core/usecase/usecase.dart';
 import '../../../add_task/data/models/task_model.dart';
+import '../../../task_item/presentation/store/task_item_store.dart';
 import '../../domain/usecases/task_list_use_case.dart';
-import 'package:mobx/mobx.dart';
 
 part 'task_list_store.g.dart';
 
@@ -16,6 +19,8 @@ abstract class _TaskListStore with Store {
 
   _TaskListStore(this._taskListUseCase);
 
+  Map<int, TaskItemStore> taskItemStores = {};
+
   @observable
   ObservableList<TaskModel> tasks = ObservableList<TaskModel>();
 
@@ -29,9 +34,37 @@ abstract class _TaskListStore with Store {
       (failure) => status = TaskListStatus.failure,
       (fetchedTasks) {
         status = TaskListStatus.loaded;
-        tasks.clear();
-        tasks.addAll(fetchedTasks);
+        _refreshListItems(fetchedTasks);
       },
     );
+  }
+
+  void _refreshListItems(List<TaskModel> fetchedTasks) {
+    List<int> taskIds = [];
+
+    for (var element in fetchedTasks) {
+      if (!tasks.contains(element) && element.id != null) {
+        tasks.add(element);
+        taskItemStores[element.id!] = TaskItemStore(
+          deleteTaskUseCase: sl(),
+          updateTaskUseCase: sl(),
+        );
+      }
+      taskIds.add(element.id!);
+    }
+
+    tasks.where((element) {
+      bool toRemote = !taskIds.contains(element.id);
+      if (toRemote) {
+        taskItemStores.remove(element.id);
+      }
+      return toRemote;
+    });
+  }
+
+  @action
+  void deleteTask(int id) {
+    tasks.removeWhere((element) => element.id == id);
+    taskItemStores.remove(id);
   }
 }

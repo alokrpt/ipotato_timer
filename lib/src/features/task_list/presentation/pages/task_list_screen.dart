@@ -42,25 +42,46 @@ class TaskListScreen extends StatelessWidget {
               child: Text('No tasks found.'),
             );
           }
-
+          // return ListView.custom(
+          //   physics: const AlwaysScrollableScrollPhysics(),
+          //   childrenDelegate: SliverChildBuilderDelegate(
+          //     (context, index) {
+          //     final task = taskListStore.tasks[index];
+          //     return TaskItem(
+          //         key: ValueKey(task.id),
+          //         task: task,
+          //     );
+          //   },
+          //     childCount: taskListStore.tasks.length,
+          //     findChildIndexCallback: (key) {
+          //       final ValueKey<int?> valueKey = key as ValueKey<int?>;
+          //       final index = taskListStore.tasks
+          //           .indexWhere((task) => task.id == valueKey.value);
+          //       return index;
+          //     },
+          //   ),
+          // );
           return ListView.builder(
             itemCount: taskListStore.tasks.length,
             itemBuilder: (context, index) {
               final task = taskListStore.tasks[index];
               return TaskItem(
+                key: UniqueKey(),
                 task: task,
-                taskStore: TaskItemStore(
-                  deleteTaskUseCase: sl(),
-                  updateTaskUseCase: sl(),
-                ),
+                onDelete: taskListStore.deleteTask,
+                taskStore: taskListStore.taskItemStores[task.id!] ??
+                    TaskItemStore(
+                      deleteTaskUseCase: sl(),
+                      updateTaskUseCase: sl(),
+                    ),
               );
             },
           );
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          showDialog(
+        onPressed: () async {
+          final result = await showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(
@@ -70,6 +91,9 @@ class TaskListScreen extends StatelessWidget {
               );
             },
           );
+          if (result == true) {
+            taskListStore.fetchTasks();
+          }
         },
         child: const Icon(Icons.add),
       ),

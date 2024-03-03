@@ -1,9 +1,11 @@
+import 'package:ipotato_timer/src/features/add_task/data/models/task_model.dart';
+
 abstract class DataSourceClient {
-  Future<void> update(String docPath, Map<String, dynamic> data);
+  Future<void> update(TaskModel task);
 
-  Future<void> add(String colPath, Map<String, dynamic> data);
+  Future<void> add(TaskModel task);
 
-  Future<Map<String, dynamic>?> get(String path);
+  Future<void> delete(int id);
 
-  Future<Map<String, Map<String, dynamic>>?> getList(String path);
+  Future<List<TaskModel>> getList();
 }

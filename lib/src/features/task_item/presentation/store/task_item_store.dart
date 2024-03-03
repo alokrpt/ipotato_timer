@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:either_dart/either.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../add_task/data/models/task_model.dart';
@@ -31,10 +30,15 @@ abstract class _TaskItemStore with Store {
   @observable
   Duration remainingDuration = Duration.zero;
 
+  @observable
+  bool isRunning = false;
+
   @action
   void init(TaskModel taskModel) {
     this.taskModel = taskModel;
-    remainingDuration = taskModel.duration;
+    if (remainingDuration == Duration.zero) {
+      remainingDuration = taskModel.duration;
+    }
   }
 
   Timer? _timer;
@@ -45,7 +49,8 @@ abstract class _TaskItemStore with Store {
       pauseTask();
       return;
     }
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    isRunning = true;
+    _timer ??= Timer.periodic(const Duration(seconds: 1), (timer) {
       remainingDuration -= const Duration(seconds: 1);
       if (isFinished) {
         pauseTask();
@@ -54,10 +59,12 @@ abstract class _TaskItemStore with Store {
   }
 
   @action
-  void pauseTask() {
+  Future<void> pauseTask() async {
     _timer?.cancel();
+    _timer = null;
+    isRunning = false;
     final updatedTask = taskModel.copyWith(duration: remainingDuration);
-    final result = updateTaskUseCase(UpdateTaskParams(task: updatedTask));
+    final result = await updateTaskUseCase(UpdateTaskParams(task: updatedTask));
     result.fold(
       (error) => null,
       (success) => taskModel = updatedTask,
@@ -65,9 +72,11 @@ abstract class _TaskItemStore with Store {
   }
 
   @action
-  void completeTask() {
+  Future<void> completeTask() async {
+    await pauseTask();
     final updatedTask = taskModel.copyWith(isCompleted: true);
-    final result = deleteTaskUseCase(DeleteTaskParams(task: updatedTask));
+    final result =
+        await deleteTaskUseCase(DeleteTaskParams(id: updatedTask.id!));
     result.fold(
       (error) => null,
       (success) => taskModel = updatedTask,
@@ -75,10 +84,9 @@ abstract class _TaskItemStore with Store {
   }
 
   @computed
-  bool get isFinished => remainingDuration.inSeconds <= 0;
-
-  @computed
-  bool get isRunning => _timer != null && _timer!.isActive && !isFinished;
+  bool get isFinished {
+    return remainingDuration.inSeconds <= 0;
+  }
 
   @computed
   String get formattedTime {

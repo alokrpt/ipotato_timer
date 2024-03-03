@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:mobx/mobx.dart';
 
 import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../../core/presentation/gap.dart';
@@ -7,16 +8,31 @@ import '../../../../core/presentation/text_styles.dart';
 import '../store/add_task_store.dart';
 import 'widgets/duration_input/duration_input_widget.dart';
 
-class AddTaskDialog extends StatelessWidget {
+class AddTaskDialog extends StatefulWidget {
   const AddTaskDialog({
     super.key,
     required this.store,
   });
   final AddTaskStore store;
+
+  @override
+  State<AddTaskDialog> createState() => _AddTaskDialogState();
+}
+
+class _AddTaskDialogState extends State<AddTaskDialog> {
+  ReactionDisposer? reactionDisposer;
+
+  @override
+  void initState() {
+    super.initState();
+    setupReactions();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: store.formKey,
+      key: widget.store.formKey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -26,7 +42,7 @@ class AddTaskDialog extends StatelessWidget {
           ),
           const Gap(20),
           TextFormField(
-            controller: store.titleController,
+            controller: widget.store.titleController,
             decoration: const InputDecoration(
               labelText: 'Title',
               border: OutlineInputBorder(),
@@ -40,7 +56,7 @@ class AddTaskDialog extends StatelessWidget {
           ),
           const Gap(20),
           TextFormField(
-            controller: store.descriptionController,
+            controller: widget.store.descriptionController,
             decoration: const InputDecoration(
               labelText: 'Description',
               border: OutlineInputBorder(),
@@ -50,21 +66,21 @@ class AddTaskDialog extends StatelessWidget {
           DurationInputWidget(
             store: sl(),
             onDurationChanged: (duration) {
-              store.duration = duration;
+              widget.store.duration = duration;
             },
           ),
           const Gap(20),
           Observer(
             builder: (context) {
-              if (store.status == AddTaskStatus.loading) {
+              if (widget.store.status == AddTaskStatus.loading) {
                 return const CircularProgressIndicator();
               }
               return ElevatedButton(
                 onPressed: () {
-                  if (store.formKey.currentState?.validate() == false) {
+                  if (widget.store.formKey.currentState?.validate() == false) {
                     return;
                   }
-                  if (store.duration == Duration.zero) {
+                  if (widget.store.duration == Duration.zero) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
                         backgroundColor: Colors.red,
@@ -73,7 +89,7 @@ class AddTaskDialog extends StatelessWidget {
                     );
                     return;
                   } else {
-                    store.addTask();
+                    widget.store.addTask();
                   }
                 },
                 child: const Text('Add Task'),
@@ -83,5 +99,22 @@ class AddTaskDialog extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void setupReactions() {
+    reactionDisposer ??=
+        reaction((_) => widget.store.status, (AddTaskStatus status) {
+      if (status == AddTaskStatus.success) {
+        widget.store.reset();
+        Navigator.of(context).pop(true);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    reactionDisposer?.call();
+    reactionDisposer = null;
+    super.dispose();
   }
 }

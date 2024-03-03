@@ -100,7 +100,7 @@ void _useCasesSl() {
 
 void _coreSl() {
   sl.registerLazySingleton<DataSourceClient>(
-    () => DataSourceClientImpl(),
+    () => DataSourceClientImpl(sl()),
   );
   sl.registerSingletonAsync<AppDatabase>(() async {
     return AppDatabase();

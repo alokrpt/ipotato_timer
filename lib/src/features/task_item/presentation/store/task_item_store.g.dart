@@ -16,13 +16,6 @@ mixin _$TaskItemStore on _TaskItemStore, Store {
       (_$isFinishedComputed ??= Computed<bool>(() => super.isFinished,
               name: '_TaskItemStore.isFinished'))
           .value;
-  Computed<bool>? _$isRunningComputed;
-
-  @override
-  bool get isRunning =>
-      (_$isRunningComputed ??= Computed<bool>(() => super.isRunning,
-              name: '_TaskItemStore.isRunning'))
-          .value;
   Computed<String>? _$formattedTimeComputed;
 
   @override
@@ -67,6 +60,38 @@ mixin _$TaskItemStore on _TaskItemStore, Store {
     });
   }
 
+  late final _$isRunningAtom =
+      Atom(name: '_TaskItemStore.isRunning', context: context);
+
+  @override
+  bool get isRunning {
+    _$isRunningAtom.reportRead();
+    return super.isRunning;
+  }
+
+  @override
+  set isRunning(bool value) {
+    _$isRunningAtom.reportWrite(value, super.isRunning, () {
+      super.isRunning = value;
+    });
+  }
+
+  late final _$pauseTaskAsyncAction =
+      AsyncAction('_TaskItemStore.pauseTask', context: context);
+
+  @override
+  Future<void> pauseTask() {
+    return _$pauseTaskAsyncAction.run(() => super.pauseTask());
+  }
+
+  late final _$completeTaskAsyncAction =
+      AsyncAction('_TaskItemStore.completeTask', context: context);
+
+  @override
+  Future<void> completeTask() {
+    return _$completeTaskAsyncAction.run(() => super.completeTask());
+  }
+
   late final _$_TaskItemStoreActionController =
       ActionController(name: '_TaskItemStore', context: context);
 
@@ -93,34 +118,12 @@ mixin _$TaskItemStore on _TaskItemStore, Store {
   }
 
   @override
-  void pauseTask() {
-    final _$actionInfo = _$_TaskItemStoreActionController.startAction(
-        name: '_TaskItemStore.pauseTask');
-    try {
-      return super.pauseTask();
-    } finally {
-      _$_TaskItemStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void completeTask() {
-    final _$actionInfo = _$_TaskItemStoreActionController.startAction(
-        name: '_TaskItemStore.completeTask');
-    try {
-      return super.completeTask();
-    } finally {
-      _$_TaskItemStoreActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 taskModel: ${taskModel},
 remainingDuration: ${remainingDuration},
-isFinished: ${isFinished},
 isRunning: ${isRunning},
+isFinished: ${isFinished},
 formattedTime: ${formattedTime}
     ''';
   }

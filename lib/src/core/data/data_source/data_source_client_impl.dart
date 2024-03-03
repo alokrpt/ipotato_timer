@@ -1,27 +1,34 @@
+import 'dart:async';
+
+import 'package:ipotato_timer/src/core/data/database/app_database.dart';
+import 'package:ipotato_timer/src/features/add_task/data/models/task_model.dart';
+import 'package:ipotato_timer/src/features/add_task/data/models/task_model_extension.dart';
+
 import 'data_source_client.dart';
 
 class DataSourceClientImpl implements DataSourceClient {
+  final AppDatabase appDatabase;
+
+  DataSourceClientImpl(this.appDatabase);
+
   @override
-  Future<void> add(String colPath, Map<String, dynamic> data) {
-    // TODO: implement add
-    throw UnimplementedError();
+  Future<void> add(TaskModel task) async {
+    return await appDatabase.insertTask(task.toDatabaseCompanion());
   }
 
   @override
-  Future<Map<String, dynamic>?> get(String path) {
-    // TODO: implement get
-    throw UnimplementedError();
+  Future<void> delete(int id) async {
+    return await appDatabase.deleteTaskById(id);
   }
 
   @override
-  Future<Map<String, Map<String, dynamic>>?> getList(String path) {
-    // TODO: implement getList
-    throw UnimplementedError();
+  Future<List<TaskModel>> getList() async {
+    final list = await appDatabase.getAllTasks();
+    return list.map((task) => TaskModel.fromDatabaseModel(task)).toList();
   }
 
   @override
-  Future<void> update(String docPath, Map<String, dynamic> data) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<void> update(TaskModel task) {
+    return appDatabase.updateTask(task.toDatabaseCompanion());
   }
 }

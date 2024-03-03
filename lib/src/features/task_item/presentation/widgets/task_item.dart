@@ -7,11 +7,14 @@ class TaskItem extends StatelessWidget {
   TaskItem({
     super.key,
     required this.taskStore,
+    required this.onDelete,
     required task,
   }) {
     taskStore.init(task);
   }
   final TaskItemStore taskStore;
+  final Function(int) onDelete;
+
   @override
   Widget build(BuildContext context) {
     return Observer(builder: (_) {
@@ -20,8 +23,9 @@ class TaskItem extends StatelessWidget {
             '${taskStore.taskModel.title}   - -      ${taskStore.formattedTime}'),
         subtitle: Text(taskStore.taskModel.description),
         leading: IconButton(
-          onPressed: () {
-            taskStore.completeTask();
+          onPressed: () async {
+            await taskStore.completeTask();
+            onDelete(taskStore.taskModel.id!);
           },
           icon: const Icon(Icons.delete),
         ),
