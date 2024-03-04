@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../../core/constants/string_constants.dart';
 import '../../../../core/dependency_injection/injection_container.dart';
 import '../../../../core/presentation/gap.dart';
 import '../../../add_task/presentation/pages/add_task_dialog.dart';
@@ -24,7 +25,7 @@ class TaskListScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: const Text(
-          'iPotato Timer',
+          Strings.appName,
           style: TextStyle(
             color: Colors.white,
           ),
@@ -40,7 +41,7 @@ class TaskListScreen extends StatelessWidget {
           }
           if (taskListStore.status == TaskListStatus.failure) {
             return const Center(
-              child: Text('Error loading tasks.'),
+              child: Text(Strings.errorLoadingTasks),
             );
           }
 
@@ -84,6 +85,7 @@ class TaskListScreen extends StatelessWidget {
           useSafeArea: true,
           builder: (context) {
             return Dialog(
+              backgroundColor: Colors.white,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
@@ -118,7 +120,7 @@ class TaskListScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             const Text(
-              'No timers active. \nPress here to start a new one',
+              Strings.noTimers,
             ),
             const Gap(10),
             Image.asset(

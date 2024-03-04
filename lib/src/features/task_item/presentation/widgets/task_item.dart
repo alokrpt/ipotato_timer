@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../../core/constants/string_constants.dart';
 import '../../../../core/presentation/gap.dart';
 import '../../../../core/presentation/text_styles.dart';
 import '../../../add_task/presentation/pages/widgets/button_item.dart';
@@ -44,13 +45,14 @@ class TaskItem extends StatelessWidget {
                   color: Theme.of(context).primaryColor,
                 ),
               ),
+              const Gap(20),
               if (taskStore.isFinished)
                 ButtonItem(
                   onTap: () async {
                     await taskStore.completeTask();
                     onDelete(taskStore.taskModel.id!);
                   },
-                  text: 'MARK COMPLETE',
+                  text: Strings.markComplete,
                   borderRadius: const BorderRadius.all(
                     Radius.circular(20.0),
                   ),
@@ -73,7 +75,7 @@ class TaskItem extends StatelessWidget {
               ),
               const Gap(20),
               Text(
-                'Finished',
+                Strings.finished,
                 style: TextStyles.pageTitle.copyWith(
                   color: primaryColor,
                 ),

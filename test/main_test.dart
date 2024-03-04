@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ipotato_timer/main.dart';
+import 'package:ipotato_timer/src/core/constants/string_constants.dart';
 import 'package:ipotato_timer/src/core/dependency_injection/injection_container.dart';
 import 'package:ipotato_timer/src/features/add_task/presentation/pages/widgets/button_item.dart';
 import 'package:ipotato_timer/src/features/task_list/presentation/pages/widgets/empty_state_widget.dart';
@@ -33,7 +34,7 @@ void main() {
     await tester.pump();
 
     // Verify that add task form has opened.
-    expect(find.text('Add Task'), findsAtLeast(2));
+    expect(find.text(Strings.addTask), findsAtLeast(2));
     expect(find.text('Title'), findsOneWidget);
 
     // Enter text into the Title field
