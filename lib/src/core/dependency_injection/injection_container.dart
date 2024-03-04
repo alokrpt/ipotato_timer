@@ -109,13 +109,10 @@ void _coreSl() {
   sl.registerSingletonAsync<AppDatabase>(() async {
     return AppDatabase();
   });
-  sl.registerSingletonAsync<AssetsAudioPlayer>(() async {
-    return AssetsAudioPlayer();
-  });
   sl.registerSingletonAsync<AudioPlayer>(() async {
     return AudioPlayerImpl(
       audio: Audio('assets/audio/betty_boop_tune.mp3'),
-      audioPlayer: sl(),
+      audioPlayer: AssetsAudioPlayer(),
     );
   });
 }

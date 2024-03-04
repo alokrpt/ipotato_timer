@@ -6,8 +6,8 @@ import 'package:ipotato_timer/src/features/add_task/presentation/pages/widgets/b
 import 'package:ipotato_timer/src/features/task_list/presentation/pages/widgets/empty_state_widget.dart';
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   initDependencyInjection();
-
   testWidgets('Initial home page', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MyApp());

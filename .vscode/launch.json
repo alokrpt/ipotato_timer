@@ -33,7 +33,7 @@
             ]
         },
         {
-            "command": "flutter test --coverage; genhtml coverage/lcov.info -o coverage/html; open coverage/html/index.html",
+            "command": "flutter test --coverage;remove_from_coverage -f coverage/lcov.info -r '\\.g\\.dart$'; genhtml coverage/lcov.info -o coverage/html; open coverage/html/index.html",
             "name": "Test Coverage",
             "request": "launch",
             "type": "node-terminal"
