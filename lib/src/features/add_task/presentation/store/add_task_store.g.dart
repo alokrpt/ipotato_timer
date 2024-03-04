@@ -64,6 +64,17 @@ mixin _$AddTaskStore on _AddTaskStore, Store {
   }
 
   @override
+  void reset() {
+    final _$actionInfo = _$_AddTaskStoreActionController.startAction(
+        name: '_AddTaskStore.reset');
+    try {
+      return super.reset();
+    } finally {
+      _$_AddTaskStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 duration: ${duration},

@@ -37,6 +37,7 @@ dev_dependencies:
   json_serializable: ^6.7.1
   mobx_codegen: ^2.6.0+1
   drift_dev: ^2.16.0
+  mockito: ^5.4.4
 
 
 

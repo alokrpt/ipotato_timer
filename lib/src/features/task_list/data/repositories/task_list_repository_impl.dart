@@ -1,13 +1,13 @@
 import 'package:either_dart/either.dart';
-import '../../../../core/error/custom_error.dart';
 
+import '../../../../core/error/custom_error.dart';
 import '../../../../core/error/error_type.dart';
 import '../../../add_task/data/models/task_model.dart';
 import '../../domain/repositories/task_list_repository.dart';
-import '../datasources/task_list_remote_data_source.dart';
+import '../datasources/task_list_data_source.dart';
 
 class TaskListRepositoryImpl implements TaskListRepository {
-  final TaskListRemoteDataSource dataSource;
+  final TaskListDataSource dataSource;
 
   TaskListRepositoryImpl({
     required this.dataSource,

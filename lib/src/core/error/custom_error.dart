@@ -1,14 +1,15 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 import 'error_type.dart';
 
-class CustomError {
-  final ErrorType type;
-  final String? message;
+part 'custom_error.freezed.dart';
 
-  const CustomError({
-    required this.type,
-    this.message,
-  });
 
-  @override
-  String toString() => 'CustomError( type: $type, message: $message )';
+@freezed
+abstract class CustomError with _$CustomError {
+  const CustomError._();
+  const factory CustomError({
+    required ErrorType type,
+    String? message,
+  }) = _CustomError;
 }

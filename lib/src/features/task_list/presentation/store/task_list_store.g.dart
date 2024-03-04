@@ -48,6 +48,20 @@ mixin _$TaskListStore on _TaskListStore, Store {
     return _$fetchTasksAsyncAction.run(() => super.fetchTasks());
   }
 
+  late final _$_TaskListStoreActionController =
+      ActionController(name: '_TaskListStore', context: context);
+
+  @override
+  void deleteTask(int id) {
+    final _$actionInfo = _$_TaskListStoreActionController.startAction(
+        name: '_TaskListStore.deleteTask');
+    try {
+      return super.deleteTask(id);
+    } finally {
+      _$_TaskListStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

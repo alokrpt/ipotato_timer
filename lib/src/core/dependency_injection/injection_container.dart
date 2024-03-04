@@ -12,7 +12,7 @@ import '../../features/task_item/domain/repositories/task_item_repository.dart';
 import '../../features/task_item/domain/usecases/delete_task_use_case.dart';
 import '../../features/task_item/domain/usecases/update_task_use_case.dart';
 import '../../features/task_item/presentation/store/task_item_store.dart';
-import '../../features/task_list/data/datasources/task_list_remote_data_source.dart';
+import '../../features/task_list/data/datasources/task_list_data_source.dart';
 import '../../features/task_list/data/repositories/task_list_repository_impl.dart';
 import '../../features/task_list/domain/repositories/task_list_repository.dart';
 import '../../features/task_list/domain/usecases/task_list_use_case.dart';
@@ -64,8 +64,8 @@ void _dataSourcesSl() {
   sl.registerLazySingleton<AddTaskDataSource>(
     () => AddTaskDataSourceImpl(sl()),
   );
-  sl.registerLazySingleton<TaskListRemoteDataSource>(
-    () => TaskListRemoteDataSourceImpl(sl()),
+  sl.registerLazySingleton<TaskListDataSource>(
+    () => TaskListDataSourceImpl(sl()),
   );
   sl.registerLazySingleton<TaskItemDataSource>(
     () => TaskItemDataSourceImpl(sl()),
