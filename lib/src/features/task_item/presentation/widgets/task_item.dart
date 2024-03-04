@@ -38,13 +38,16 @@ class TaskItem extends StatelessWidget {
                   color: Colors.green.shade800,
                 ),
               ),
-              const Gap(10),
-              Text(
+             
+              if (taskStore.taskModel.description.isNotEmpty) ...[
+                const Gap(10),
+                Text(
                 taskStore.taskModel.description,
                 style: TextStyles.actionText.copyWith(
                   color: Theme.of(context).primaryColor,
                 ),
               ),
+              ],
               const Gap(20),
               if (taskStore.isFinished)
                 ButtonItem(
