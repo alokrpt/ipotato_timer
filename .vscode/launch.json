@@ -32,5 +32,11 @@
                 "--dart-define=kTestMode=true"
             ]
         },
+        {
+            "command": "flutter test --coverage; genhtml coverage/lcov.info -o coverage/html; open coverage/html/index.html",
+            "name": "Test Coverage",
+            "request": "launch",
+            "type": "node-terminal"
+        }
     ]
 }
