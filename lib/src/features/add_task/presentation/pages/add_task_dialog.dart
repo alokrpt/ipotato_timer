@@ -82,33 +82,37 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                 ],
               )),
           const Gap(20),
-          Observer(
-            builder: (_) {
-              if (widget.store.status == AddTaskStatus.loading) {
-                return const CircularProgressIndicator();
-              }
-              return ButtonItem(
-                text: 'Add Task',
-                onTap: () {
-                  if (widget.store.formKey.currentState?.validate() == false) {
-                    return;
-                  }
-                  if (widget.store.duration == Duration.zero) {
-                    Fluttertoast.showToast(
-                      msg: 'Please enter duration',
-                      backgroundColor: Colors.red.withOpacity(.6),
-                      toastLength: Toast.LENGTH_SHORT,
-                    );
-                    return;
-                  } else {
-                    widget.store.addTask();
-                  }
-                },
-              );
-            },
-          ),
+          addTaskButton(),
         ],
       ),
+    );
+  }
+
+  Widget addTaskButton() {
+    return Observer(
+      builder: (_) {
+        if (widget.store.status == AddTaskStatus.loading) {
+          return const CircularProgressIndicator();
+        }
+        return ButtonItem(
+          text: 'Add Task',
+          onTap: () {
+            if (widget.store.formKey.currentState?.validate() == false) {
+              return;
+            }
+            if (widget.store.duration == Duration.zero) {
+              Fluttertoast.showToast(
+                msg: 'Please enter duration',
+                backgroundColor: Colors.red.withOpacity(.6),
+                toastLength: Toast.LENGTH_SHORT,
+              );
+              return;
+            } else {
+              widget.store.addTask();
+            }
+          },
+        );
+      },
     );
   }
 

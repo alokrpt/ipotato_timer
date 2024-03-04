@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import '../../../../core/audio/audio_player.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/audio/audio_player.dart';
 import '../../../add_task/data/models/task_model.dart';
 import '../../domain/usecases/delete_task_use_case.dart';
 import '../../domain/usecases/update_task_use_case.dart';
