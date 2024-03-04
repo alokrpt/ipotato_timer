@@ -1,8 +1,6 @@
-import 'package:flutter/material.dart';
+import '../../../../core/data/data_source/data_source_client.dart';
 import '../../../../core/error/custom_error.dart';
 import '../../../../core/error/error_type.dart';
-
-import '../../../../core/data/data_source/data_source_client.dart';
 import '../../domain/usecases/add_task_use_case.dart';
 
 abstract class AddTaskDataSource {
@@ -18,7 +16,6 @@ class AddTaskDataSourceImpl implements AddTaskDataSource {
 
   @override
   Future<void> addTask(AddTaskParams params) async {
-    debugPrint('AddTaskDataSourceImpl ${params.taskModel.toJson()}');
     try {
       await client.add(params.taskModel);
     } catch (e) {

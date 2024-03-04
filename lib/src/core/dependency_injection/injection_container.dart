@@ -1,3 +1,4 @@
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/add_task/data/datasources/add_task_data_source.dart';
@@ -18,6 +19,7 @@ import '../../features/task_list/domain/repositories/task_list_repository.dart';
 import '../../features/task_list/domain/usecases/task_list_use_case.dart';
 import '../../features/task_list/presentation/store/task_list_store.dart';
 import '../audio/audio_player.dart';
+import '../audio/audio_player_impl.dart';
 import '../data/data_source/data_source_client.dart';
 import '../data/data_source/data_source_client_impl.dart';
 import '../data/database/app_database.dart';
@@ -107,7 +109,13 @@ void _coreSl() {
   sl.registerSingletonAsync<AppDatabase>(() async {
     return AppDatabase();
   });
+  sl.registerSingletonAsync<AssetsAudioPlayer>(() async {
+    return AssetsAudioPlayer();
+  });
   sl.registerSingletonAsync<AudioPlayer>(() async {
-    return AudioPlayer();
+    return AudioPlayerImpl(
+      audio: Audio('assets/audio/betty_boop_tune.mp3'),
+      audioPlayer: sl(),
+    );
   });
 }

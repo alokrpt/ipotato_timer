@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ipotato_timer/main.dart';
 import 'package:ipotato_timer/src/core/dependency_injection/injection_container.dart';
+import 'package:ipotato_timer/src/features/add_task/presentation/pages/widgets/button_item.dart';
 import 'package:ipotato_timer/src/features/task_list/presentation/pages/widgets/empty_state_widget.dart';
 
 void main() {
@@ -34,5 +35,43 @@ void main() {
     // Verify that add task form has opened.
     expect(find.text('Add Task'), findsAtLeast(2));
     expect(find.text('Title'), findsOneWidget);
+
+    // Enter text into the Title field
+    await tester.enterText(
+        find.byWidgetPredicate((Widget widget) =>
+            widget is TextField && widget.decoration?.labelText == 'Title'),
+        'Task title');
+
+    // Verify that the text was entered correctly
+    expect(find.text('Task title'), findsOneWidget);
+
+    // Enter text into the description field
+    await tester.enterText(
+        find.byWidgetPredicate((Widget widget) =>
+            widget is TextField &&
+            widget.decoration?.labelText == 'Description'),
+        'Task Desc');
+
+    // Verify that the text was entered correctly
+    expect(find.text('Task Desc'), findsOneWidget);
+
+    // Enter text into the seconds field
+    await tester.enterText(
+        find.byWidgetPredicate((Widget widget) =>
+            widget is TextField && widget.decoration?.labelText == 'SS'),
+        '30');
+
+    // Verify that the text was entered correctly
+    expect(find.text('30'), findsOneWidget);
+
+    await tester
+        .tap(find.byWidgetPredicate((Widget widget) => widget is ButtonItem));
+    await tester.pump();
+    expect(find.byWidgetPredicate((Widget widget) => widget is ButtonItem),
+        findsNothing);
+    expect(
+        find.byWidgetPredicate(
+            (Widget widget) => widget is CircularProgressIndicator),
+        findsAtLeast(1));
   });
 }
