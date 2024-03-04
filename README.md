@@ -39,7 +39,7 @@ The app follows clean architecture principles, separating concerns into layers:
 
 ---
 
-## Test Coverage
+## Test Coverage: 74%
 
 The application is thoroughly tested to ensure reliability and robustness. Test coverage includes:
 
