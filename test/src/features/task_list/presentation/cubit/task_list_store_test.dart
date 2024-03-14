@@ -3,8 +3,7 @@ import 'package:ipotato_timer/src/features/task_list/domain/usecases/task_list_u
 import 'package:ipotato_timer/src/features/task_list/presentation/store/task_list_store.dart';
 import 'package:mockito/annotations.dart';
 
-import '../../../add_task/data/models/test_data_extension.dart';
-import 'task_list_cubit_test.mocks.dart';
+import 'task_list_store_test.mocks.dart';
 
 @GenerateMocks([TaskListUseCase])
 void main() {
@@ -19,7 +18,7 @@ void main() {
   });
 
   group('task_list', () {
-    var tasks = TaskModelTestData.demoTasks;
+    // var tasks = TaskModelTestData.demoTasks;
 
     test(
       'should return initial state',
