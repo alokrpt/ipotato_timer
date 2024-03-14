@@ -3,11 +3,11 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../../../core/constants/string_constants.dart';
 import '../../../../core/dependency_injection/injection_container.dart';
-import '../../../../core/presentation/gap.dart';
 import '../../../add_task/presentation/pages/add_task_dialog.dart';
 import '../../../task_item/presentation/store/task_item_store.dart';
 import '../../../task_item/presentation/widgets/task_item.dart';
 import '../store/task_list_store.dart';
+import 'widgets/empty_state_widget.dart';
 
 class TaskListScreen extends StatelessWidget {
   TaskListScreen({
@@ -46,7 +46,7 @@ class TaskListScreen extends StatelessWidget {
           }
 
           if (taskListStore.tasks.isEmpty) {
-            return _emptyStateWidget();
+            return const EmptyStateWidget();
           }
           return Padding(
             padding: const EdgeInsets.all(8.0),
@@ -103,33 +103,6 @@ class TaskListScreen extends StatelessWidget {
       child: const Icon(
         Icons.add,
         size: 34,
-      ),
-    );
-  }
-
-  Align _emptyStateWidget() {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(
-          bottom: 120,
-          right: 20,
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            const Text(
-              Strings.noTimers,
-            ),
-            const Gap(10),
-            Image.asset(
-              'assets/images/down_arrow.png',
-              height: 100,
-              color: Colors.grey,
-            ),
-          ],
-        ),
       ),
     );
   }
